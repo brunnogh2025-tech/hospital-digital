@@ -20,6 +20,10 @@ public class Consulta {
     @JoinColumn(name = "paciente_id")
     private Paciente paciente;
 
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "medico_id")
+    private Medico medico;
+
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data;
 
