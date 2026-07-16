@@ -1,14 +1,13 @@
-package hospital.digital.entity;
+package hospital.digital.entity.paciente;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
-import lombok.NonNull;
 import lombok.Setter;
-import lombok.Value;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -1,5 +1,6 @@
-package hospital.digital.entity;
+package hospital.digital.entity.medico;
 
+import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

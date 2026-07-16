@@ -1,7 +1,6 @@
 package hospital.digital.repository;
 
-import hospital.digital.entity.Medico;
-import hospital.digital.entity.Paciente;
+import hospital.digital.entity.medico.Medico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

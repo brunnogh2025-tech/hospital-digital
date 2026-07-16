@@ -1,6 +1,8 @@
-package hospital.digital.entity;
+package hospital.digital.entity.consulta;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hospital.digital.entity.medico.Medico;
+import hospital.digital.entity.paciente.Paciente;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
