@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -24,29 +25,30 @@ public class Paciente {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Consulta> consultas;
 
-    @NotBlank
     private String nome;
 
-    @NotBlank
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate data_nasc;
 
-    @NotBlank
-    @Email
+    private int idade;
+
     private String email;
 
-    @NotBlank
+    private String senha;
+
+    private String cpf;
+
     private String telefone;
 
-    @NotBlank
     private String sintomas;
 
-    public Paciente(String nome, LocalDate data_nasc, String email, String telefone, String sintomas) {
+    public Paciente(String nome, LocalDate data_nasc, String email, String telefone, String sintomas, String senha) {
         this.nome = nome;
         this.data_nasc = data_nasc;
+        this.idade = Period.between(data_nasc, LocalDate.now()).getYears();
         this.email = email;
         this.telefone = telefone;
         this.sintomas = sintomas;
+        this.senha = senha;
     }
 
     public Paciente() {

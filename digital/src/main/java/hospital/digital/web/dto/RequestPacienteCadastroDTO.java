@@ -1,0 +1,29 @@
+package hospital.digital.web.dto;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.validation.constraints.*;
+import org.hibernate.validator.constraints.br.CPF;
+
+import java.time.LocalDate;
+
+public record RequestPacienteCadastroDTO(
+        @NotBlank(message = "Nome é obrigatório")
+        String nome,
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        @NotNull(message = "Data de nascimento é obrigatória.")
+        @Past(message = "Data de nascimento deve estar no passado")
+        LocalDate dataNasc,
+        @Email(message = "Email inválido.")
+        @NotBlank(message = "E-mail é obrigatório.")
+        String email,
+        @NotBlank
+        @Size(min = 8, max = 30, message = "A senha deve ter de 8 a 30 caracteres.")
+        String senha,
+        @Pattern(regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve conter apenas números")
+        String cpf,
+        @NotBlank(message = "Telefone é obrigatório.")
+        @Pattern(regexp = "\\d{11}")
+        String telefone
+                                         ) {
+
+}
