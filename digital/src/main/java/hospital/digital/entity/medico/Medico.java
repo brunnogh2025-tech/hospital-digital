@@ -33,9 +33,9 @@ public class Medico {
     private String telefone;
 
     @NotBlank
-    private String especialidade;
+    private EspecialidadeMedico especialidade;
 
-    public Medico(String nome, LocalDate data_nasc, String email, String telefone, String especialidade) {
+    public Medico(String nome, LocalDate data_nasc, String email, String telefone, EspecialidadeMedico especialidade) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;

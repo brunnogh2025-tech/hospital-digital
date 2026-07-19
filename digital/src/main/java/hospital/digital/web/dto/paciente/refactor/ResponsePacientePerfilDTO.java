@@ -1,4 +1,4 @@
-package hospital.digital.web.dto;
+package hospital.digital.web.dto.paciente.refactor;
 
 import hospital.digital.entity.consulta.Consulta;
 

@@ -1,4 +1,4 @@
-package hospital.digital.web.dto;
+package hospital.digital.web.dto.paciente.request;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
