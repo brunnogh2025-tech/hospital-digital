@@ -5,6 +5,7 @@ import org.jspecify.annotations.NonNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,5 +16,6 @@ public interface PacienteDAO extends JpaRepository<Paciente,Long> {
 
     public Paciente findByEmail(String email);
 
+    @Query(value = "SELECT p FROM paciente")
     public Page<Paciente> findAll(@NonNull Pageable pageable);
 }

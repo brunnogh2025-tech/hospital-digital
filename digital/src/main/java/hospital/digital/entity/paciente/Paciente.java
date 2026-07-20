@@ -6,6 +6,7 @@ import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Table(name = "paciente")
 @Getter
 @Setter
+@Builder
 public class Paciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,8 +31,6 @@ public class Paciente {
 
     private LocalDate data_nasc;
 
-    private int idade;
-
     private String email;
 
     private String senha;
@@ -41,16 +41,20 @@ public class Paciente {
 
     private String sintomas;
 
-    public Paciente(String nome, LocalDate data_nasc, String email, String telefone, String sintomas, String senha) {
+    public Paciente(String nome, LocalDate data_nasc, String email, String telefone, String cpf, String sintomas, String senha) {
         this.nome = nome;
         this.data_nasc = data_nasc;
-        this.idade = Period.between(data_nasc, LocalDate.now()).getYears();
         this.email = email;
         this.telefone = telefone;
+        this.cpf = cpf;
         this.sintomas = sintomas;
         this.senha = senha;
     }
 
     public Paciente() {
+    }
+
+    public int calcularIdade(){
+        return Period.between(data_nasc, LocalDate.now()).getYears();
     }
 }

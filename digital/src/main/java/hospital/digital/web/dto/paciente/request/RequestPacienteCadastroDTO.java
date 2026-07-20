@@ -1,6 +1,7 @@
 package hospital.digital.web.dto.paciente.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hospital.digital.entity.paciente.Paciente;
 import jakarta.validation.constraints.*;
 
 import java.time.LocalDate;
@@ -22,7 +23,8 @@ public record RequestPacienteCadastroDTO(
         String cpf,
         @NotBlank(message = "Telefone é obrigatório.")
         @Pattern(regexp = "\\d{11}")
-        String telefone
+        String telefone,
+        String sintomas
                                          ) {
 
 }

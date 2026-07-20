@@ -9,6 +9,7 @@ public record ResponsePacientePerfilDTO(
         List<Consulta> consultaList,
         String nome,
         LocalDate dataNasc,
+        int idade,
         String email,
         String cpf,
         String telefone,
