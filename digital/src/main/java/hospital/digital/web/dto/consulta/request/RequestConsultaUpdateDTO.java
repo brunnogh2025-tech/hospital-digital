@@ -4,10 +4,11 @@ import hospital.digital.entity.medico.Medico;
 import hospital.digital.entity.paciente.Paciente;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record RequestConsultaUpdateDTO(
         Paciente paciente,
-        LocalDate data,
+        LocalDateTime data,
         Medico medico
 ) {
 }

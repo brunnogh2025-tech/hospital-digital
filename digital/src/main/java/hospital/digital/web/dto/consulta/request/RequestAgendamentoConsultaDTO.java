@@ -5,11 +5,12 @@ import hospital.digital.entity.paciente.Paciente;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record RequestAgendamentoConsultaDTO(
         Paciente paciente,
         @NotNull(message = "Data é obrigatória.")
-        LocalDate dataAgendada,
+        LocalDateTime dataAgendada,
         Medico medico
 ) {
 }

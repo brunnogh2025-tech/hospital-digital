@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "consulta")
@@ -28,10 +29,10 @@ public class Consulta {
     @JoinColumn(name = "medico_id")
     private Medico medico;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    private LocalDate data;
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    private LocalDateTime data;
 
-    public Consulta(LocalDate data) {
+    public Consulta(LocalDateTime data) {
         this.data = data;
     }
 

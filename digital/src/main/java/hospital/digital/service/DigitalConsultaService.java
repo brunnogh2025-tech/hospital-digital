@@ -1,6 +1,7 @@
 package hospital.digital.service;
 
 import hospital.digital.entity.consulta.Consulta;
+import hospital.digital.entity.consulta.ConsultaNaoEncontradaException;
 import hospital.digital.entity.paciente.Paciente;
 import hospital.digital.repository.ConsultaDAO;
 import hospital.digital.web.dto.consulta.request.RequestAgendamentoConsultaDTO;
@@ -20,10 +21,22 @@ import java.util.stream.Collectors;
 @Service
 public class DigitalConsultaService {
 
+    /*TODO: features:
+        método de query personalizada.
+     */
+
     public final ConsultaDAO consultaDAO;
 
     public DigitalConsultaService(ConsultaDAO consultaDAO) {
         this.consultaDAO = consultaDAO;
+    }
+
+    public ResponseConsultaQueryDTO getConsultaById(Long id){
+        Consulta consulta = consultaDAO.findById(id).orElseThrow(() -> new ConsultaNaoEncontradaException(id));
+        return new ResponseConsultaQueryDTO(
+                consulta.getPaciente().getNome(),
+                consulta.getData(),
+                consulta.getMedico().getNome());
     }
 
     public List<ResponseConsultaQueryDTO> getConsultasByPage(int page, int size){

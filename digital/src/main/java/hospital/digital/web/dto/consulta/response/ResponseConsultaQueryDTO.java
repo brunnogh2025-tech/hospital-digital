@@ -1,10 +1,11 @@
 package hospital.digital.web.dto.consulta.response;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public record ResponseConsultaQueryDTO(
         String paciente,
-        LocalDate agendamento,
+        LocalDateTime agendamento,
         String medico
 
 ) {

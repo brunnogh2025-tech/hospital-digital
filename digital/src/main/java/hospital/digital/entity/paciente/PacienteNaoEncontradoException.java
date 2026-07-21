@@ -1,14 +1,14 @@
 package hospital.digital.entity.paciente;
 
-import hospital.digital.web.exception.EntityNotFoundException;
+import hospital.digital.web.exception.EntidadeNaoEncontradaException;
 import hospital.digital.web.exception.MensagemNaoEncontrado;
 
-public class PacienteNaoEncontradoException extends EntityNotFoundException {
-    private PacienteNaoEncontradoException(String msg) {
-        super(msg);
+public class PacienteNaoEncontradoException extends EntidadeNaoEncontradaException {
+    public PacienteNaoEncontradoException(Long id) {
+        super("O paciente com o id " + id + " não foi encontrado");
     }
 
-    public static PacienteNaoEncontradoException porId(Long id){
+    /*public static PacienteNaoEncontradoException porId(Long id){
         return new PacienteNaoEncontradoException(MensagemNaoEncontrado.porId(id,"paciente"));
     }
 
@@ -22,5 +22,5 @@ public class PacienteNaoEncontradoException extends EntityNotFoundException {
 
     public static PacienteNaoEncontradoException porTel(String tel){
         return new PacienteNaoEncontradoException(MensagemNaoEncontrado.porTel(tel,"paciente"));
-    }
+    }*/
 }

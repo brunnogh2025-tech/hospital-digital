@@ -6,6 +6,7 @@ import hospital.digital.repository.PacienteDAO;
 import hospital.digital.web.dto.paciente.request.RequestPacienteCadastroDTO;
 import hospital.digital.web.dto.paciente.request.RequestPacienteUpdateDTO;
 import hospital.digital.web.dto.paciente.response.ResponsePacienteQueryDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,12 +20,7 @@ import java.util.stream.Collectors;
 public class DigitalPacienteService {
 
     /*TODO: features:
-        consultar por id;
-        consultar todos;
-        consulta paginada;
-        mudar as informações de perfil;
-        deletar registro;
-        Adicionar o tratamento de exceções a cada um dos métodos.
+        método de query personalizada.
      */
 
     PacienteDAO pacienteDAO;
@@ -33,8 +29,10 @@ public class DigitalPacienteService {
         this.pacienteDAO = pacienteDAO;
     }
 
+
+
     public ResponsePacienteQueryDTO getPacienteById(Long id){
-        Paciente paciente = pacienteDAO.findById(id).orElseThrow(() -> PacienteNaoEncontradoException.porId(id));
+        Paciente paciente = pacienteDAO.findById(id).orElseThrow(() -> new PacienteNaoEncontradoException(id));
         return new ResponsePacienteQueryDTO(
                 paciente.getNome(),
                 paciente.calcularIdade(),
@@ -46,7 +44,6 @@ public class DigitalPacienteService {
     public List<ResponsePacienteQueryDTO> getPacientesByPage(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
         Page<Paciente> pacientes = pacienteDAO.findAll(pageable);
-        ArrayList<ResponsePacienteQueryDTO> pacienteQueryDTOs = new ArrayList<ResponsePacienteQueryDTO>();
         return pacientes.stream()
                 .map(paciente -> new ResponsePacienteQueryDTO(
                         paciente.getNome(),
@@ -56,6 +53,11 @@ public class DigitalPacienteService {
                 )).collect(Collectors.toList());
     }
 
+    /*public List<ResponsePacienteQueryDTO> getPacientesByPageFilter(){
+        pacienteDAO.
+    }
+*/
+    @Transactional
     public void savePaciente(RequestPacienteCadastroDTO pacienteCadastroDTO){
         Paciente paciente = Paciente.builder()
                 .nome(pacienteCadastroDTO.nome())
@@ -69,6 +71,7 @@ public class DigitalPacienteService {
         pacienteDAO.save(paciente);
     }
 
+    @Transactional
     public void setPaciente(RequestPacienteUpdateDTO pacienteUpdateDTO, Long id){
         Paciente paciente = Paciente.builder()
                 .cpf(pacienteUpdateDTO.cpf())
@@ -83,6 +86,7 @@ public class DigitalPacienteService {
         pacienteDAO.save(paciente);
     }
 
+    @Transactional
     public void deletePaciente(Long id){
         pacienteDAO.deleteById(id);
     }
