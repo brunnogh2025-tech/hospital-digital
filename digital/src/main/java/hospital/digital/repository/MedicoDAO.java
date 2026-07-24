@@ -4,6 +4,7 @@ import hospital.digital.entity.medico.Medico;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,5 +15,6 @@ public interface MedicoDAO extends JpaRepository<Medico,Long> {
 
     public Medico findByEmail(String email);
 
+    @Query("SELECT DISTINCT m FROM Medico JOIN FETCH m.consultas ORDER BY medico.nome")
     public Page<Medico> getMedicosByPage(Pageable pageable);
 }

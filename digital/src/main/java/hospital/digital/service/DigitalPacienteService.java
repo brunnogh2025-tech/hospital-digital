@@ -19,8 +19,9 @@ import java.util.stream.Collectors;
 @Service
 public class DigitalPacienteService {
 
-    /*TODO: features:
-        método de query personalizada.
+    /*TODO:
+        método de query personalizada,
+        resolver problema N+1
      */
 
     PacienteDAO pacienteDAO;
@@ -38,12 +39,13 @@ public class DigitalPacienteService {
                 paciente.calcularIdade(),
                 paciente.getData_nasc(),
                 paciente.getSintomas()
+
         );
     }
 
     public List<ResponsePacienteQueryDTO> getPacientesByPage(int page, int size){
         Pageable pageable = PageRequest.of(page, size);
-        Page<Paciente> pacientes = pacienteDAO.findAll(pageable);
+        Page<Paciente> pacientes = pacienteDAO.findAllByPage(pageable);
         return pacientes.stream()
                 .map(paciente -> new ResponsePacienteQueryDTO(
                         paciente.getNome(),

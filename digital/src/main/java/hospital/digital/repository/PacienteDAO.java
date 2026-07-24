@@ -16,6 +16,7 @@ public interface PacienteDAO extends JpaRepository<Paciente,Long> {
 
     public Paciente findByEmail(String email);
 
-    @Query(value = "SELECT p FROM paciente")
-    public Page<Paciente> findAll(@NonNull Pageable pageable);
+    @Query(value = "SELECT DISTINCT p FROM paciente JOIN FETCH p.consultas ORDER BY p.nome")
+    public Page<Paciente> findAllByPage(@NonNull Pageable pageable);
+
 }
