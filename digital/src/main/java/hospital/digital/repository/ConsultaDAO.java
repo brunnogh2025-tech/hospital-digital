@@ -11,7 +11,14 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConsultaDAO extends JpaRepository<Consulta,Long> {
-    @Query(value = "SELECT c.paciente.nome AS paciente, c.data AS data, c.medico.nome AS medico FROM Consulta c")
+    @Query("""
+        SELECT new web.dto.consulta.response.PacienteConsultaQueryDTO(
+            c.paciente.nome,
+            c.data,
+            c.medico.nome
+        )
+        FROM Consulta c
+        """)
     public Page<Consulta> getConsultaPageable(Pageable pageable);
 
 }

@@ -9,6 +9,7 @@ import hospital.digital.web.dto.consulta.request.RequestConsultaUpdateDTO;
 import hospital.digital.web.dto.consulta.request.RequestQueryConsultaDTO;
 import hospital.digital.web.dto.consulta.response.ResponseConsultaQueryDTO;
 import hospital.digital.web.dto.paciente.response.ResponsePacienteQueryDTO;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -50,6 +51,7 @@ public class DigitalConsultaService {
                 )).collect(Collectors.toList());
 
     }
+    @Transactional
     public void saveConsulta(RequestAgendamentoConsultaDTO agendamento){
         Consulta consulta = Consulta.builder()
                 .paciente(agendamento.paciente())
@@ -58,7 +60,7 @@ public class DigitalConsultaService {
                 .build();
         consultaDAO.save(consulta);
     }
-
+    @Transactional
     public void setConsulta(RequestConsultaUpdateDTO consultaUpdate, Long id){
         Consulta consulta = Consulta.builder()
                 .paciente(consultaUpdate.paciente())
@@ -69,7 +71,7 @@ public class DigitalConsultaService {
         consultaDAO.save(consulta);
 
     }
-
+    @Transactional
     public void deleteConsulta(Long id){
         consultaDAO.deleteById(id);
     }
