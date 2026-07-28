@@ -5,7 +5,6 @@ import java.time.LocalDate;
 public record ResponsePacienteQueryDTO(
         String nome,
         int idade,
-        LocalDate dataNasc,
-        String sintomas
+        LocalDate dataNasc
 ) {
 }

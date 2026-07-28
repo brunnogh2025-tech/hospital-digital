@@ -12,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,8 +39,7 @@ public class DigitalPacienteService {
         return new ResponsePacienteQueryDTO(
                 paciente.getNome(),
                 paciente.calcularIdade(),
-                paciente.getData_nasc(),
-                paciente.getSintomas()
+                paciente.getData_nasc()
 
         );
     }
@@ -50,8 +51,19 @@ public class DigitalPacienteService {
                 .map(paciente -> new ResponsePacienteQueryDTO(
                         paciente.getNome(),
                         paciente.calcularIdade(),
-                        paciente.getData_nasc(),
-                        paciente.getSintomas()
+                        paciente.getData_nasc()
+                )).collect(Collectors.toList());
+    }
+
+    public List<ResponsePacienteQueryDTO> getPacientesByIdade(byte idade){
+        LocalDate dataFim = LocalDate.now().minusYears(idade);
+        LocalDate dataInicio = dataFim.minusYears(1);
+        List<Paciente> pacientes = pacienteDAO.findByIdade(dataInicio, dataFim);
+        return pacientes.stream()
+                .map(paciente -> new ResponsePacienteQueryDTO(
+                        paciente.getNome(),
+                        paciente.calcularIdade(),
+                        paciente.getData_nasc()
                 )).collect(Collectors.toList());
     }
 

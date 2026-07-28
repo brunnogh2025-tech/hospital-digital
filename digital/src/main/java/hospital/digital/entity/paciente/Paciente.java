@@ -54,7 +54,7 @@ public class Paciente {
     public Paciente() {
     }
 
-    public int calcularIdade(){
-        return Period.between(data_nasc, LocalDate.now()).getYears();
+    public byte calcularIdade(){
+        return (byte) Period.between(data_nasc, LocalDate.now()).getYears();
     }
 }

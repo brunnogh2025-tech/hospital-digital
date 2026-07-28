@@ -75,4 +75,6 @@ public class DigitalConsultaService {
     public void deleteConsulta(Long id){
         consultaDAO.deleteById(id);
     }
+
+
 }
