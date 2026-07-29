@@ -20,12 +20,10 @@ public interface PacienteDAO extends JpaRepository<Paciente,Long> {
 
     public Paciente findByEmail(String email);
 
-
-    //Inacabado
-
-
-    @Query("SELECT p FROM paciente WHERE p.data_nasc >= :dataInicio AND p.data_nasc <= :dataFim")
-    public List<Paciente> findByIdade(@Param("inicio")LocalDate dataInicio, @Param("fim")LocalDate dataFim);
+    @Query("SELECT p FROM paciente LEFT JOIN FETCH p.consulta " +
+            "WHERE p.data_nasc >= :dataMax AND p.data_nasc <= :dataMin " +
+            "ORDER BY p.nome")
+    public List<Paciente> findByIdade(@Param("dataMax")LocalDate dataMax, @Param("dataMin")LocalDate dataMin);
 
     @Query(value = "SELECT DISTINCT p FROM paciente JOIN FETCH p.consultas ORDER BY p.nome")
     public Page<Paciente> findAllByPage(@NonNull Pageable pageable);
