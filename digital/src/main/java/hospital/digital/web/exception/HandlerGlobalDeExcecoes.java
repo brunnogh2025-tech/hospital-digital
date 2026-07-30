@@ -2,6 +2,7 @@ package hospital.digital.web.exception;
 
 import hospital.digital.web.dto.ErrorResponseDTO;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -14,14 +15,15 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
+@Slf4j
 public class HandlerGlobalDeExcecoes {
 
     @ExceptionHandler(EntidadeNaoEncontradaException.class)
     public ResponseEntity<ErrorResponseDTO> handleEntidadeNaoEncontrada(
             EntidadeNaoEncontradaException ex, HttpServletRequest request
     ){
+        log.warn("Recurso não encontrado: {}",ex.getMessage());
         String uuid = UUID.randomUUID().toString();
-
         ErrorResponseDTO error = new ErrorResponseDTO(
                 LocalDateTime.now(),
                 HttpStatus.NOT_FOUND.value(),
@@ -38,8 +40,8 @@ public class HandlerGlobalDeExcecoes {
     public ResponseEntity<ErrorResponseDTO> handleArgumentoIlegalException(
             HttpServletRequest request, MethodArgumentNotValidException ex
     ){
+        log.warn("Argumento ilegal: {}",ex.getMessage());
         String uuid = UUID.randomUUID().toString();
-
         List<CampoErroDTO> campos = ex.getBindingResult().getFieldErrors()
                 .stream().map(fieldError -> new CampoErroDTO(
                         fieldError.getField(),
@@ -61,6 +63,13 @@ public class HandlerGlobalDeExcecoes {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDTO> handleGenerico(
             Exception ex, HttpServletRequest request){
+        log.error("""
+                Erro inesperado. MÉTODO: {}
+                URI: {}
+                IP: {}
+                """,
+                request.getMethod(),request.getRequestURI(), request.getRemoteAddr(), ex);
+
         String uuid = UUID.randomUUID().toString();
 
         ErrorResponseDTO erro = new ErrorResponseDTO(

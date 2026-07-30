@@ -10,6 +10,7 @@ import hospital.digital.web.dto.consulta.request.RequestQueryConsultaDTO;
 import hospital.digital.web.dto.consulta.response.ResponseConsultaQueryDTO;
 import hospital.digital.web.dto.paciente.response.ResponsePacienteQueryDTO;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DigitalConsultaService {
 
     /*TODO: features:
@@ -33,6 +35,7 @@ public class DigitalConsultaService {
     }
 
     public ResponseConsultaQueryDTO getConsultaById(Long id){
+        log.info("Buscando consulta pelo id {}",id);
         Consulta consulta = consultaDAO.findById(id).orElseThrow(() -> new ConsultaNaoEncontradaException(id));
         return new ResponseConsultaQueryDTO(
                 consulta.getPaciente().getNome(),
@@ -40,8 +43,9 @@ public class DigitalConsultaService {
                 consulta.getMedico().getNome());
     }
 
-    public List<ResponseConsultaQueryDTO> getConsultasByPage(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
+    public List<ResponseConsultaQueryDTO> getConsultasByPage(int page){
+        log.info("Buscando consultas na página {}",page);
+        Pageable pageable = PageRequest.of(page, 100);
         Page<Consulta> consultas = consultaDAO.getConsultaPageable(pageable);
         return consultas.stream()
                 .map(consulta -> new ResponseConsultaQueryDTO(
@@ -53,6 +57,7 @@ public class DigitalConsultaService {
     }
     @Transactional
     public void saveConsulta(RequestAgendamentoConsultaDTO agendamento){
+        log.info("Salvando consulta com os dados: {}",agendamento);
         Consulta consulta = Consulta.builder()
                 .paciente(agendamento.paciente())
                 .data(agendamento.dataAgendada())
@@ -62,6 +67,7 @@ public class DigitalConsultaService {
     }
     @Transactional
     public void setConsulta(RequestConsultaUpdateDTO consultaUpdate, Long id){
+        log.info("Mudando consulta com o id {} com os dados: {}",id, consultaUpdate);
         Consulta consulta = Consulta.builder()
                 .paciente(consultaUpdate.paciente())
                 .data(consultaUpdate.data())
@@ -73,6 +79,7 @@ public class DigitalConsultaService {
     }
     @Transactional
     public void deleteConsulta(Long id){
+        log.info("Deletando consulta com o id {}",id);
         consultaDAO.deleteById(id);
     }
 

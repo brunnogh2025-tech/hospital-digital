@@ -7,6 +7,8 @@ import hospital.digital.web.dto.paciente.request.RequestPacienteCadastroDTO;
 import hospital.digital.web.dto.paciente.request.RequestPacienteUpdateDTO;
 import hospital.digital.web.dto.paciente.response.ResponsePacienteQueryDTO;
 import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +19,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class DigitalPacienteService {
 
     /*TODO:
-        método de query personalizada,
-        resolver problema N+1
+
      */
 
     PacienteDAO pacienteDAO;
@@ -31,8 +33,8 @@ public class DigitalPacienteService {
     }
 
 
-
     public ResponsePacienteQueryDTO getPacienteById(Long id){
+        log.info("Buscando paciente com o id {}", id);
         Paciente paciente = pacienteDAO.findById(id).orElseThrow(() -> new PacienteNaoEncontradoException(id));
         return new ResponsePacienteQueryDTO(
                 paciente.getNome(),
@@ -42,8 +44,9 @@ public class DigitalPacienteService {
         );
     }
 
-    public List<ResponsePacienteQueryDTO> getPacientesByPage(int page, int size){
-        Pageable pageable = PageRequest.of(page, size);
+    public List<ResponsePacienteQueryDTO> getPacientesByPage(int page){
+        log.info("Buscando pacientes na página {}", page);
+        Pageable pageable = PageRequest.of(page, 100);
         Page<Paciente> pacientes = pacienteDAO.findAllByPage(pageable);
         return pacientes.stream()
                 .map(paciente -> new ResponsePacienteQueryDTO(
@@ -53,10 +56,12 @@ public class DigitalPacienteService {
                 )).collect(Collectors.toList());
     }
 
-    public List<ResponsePacienteQueryDTO> getPacientesByIdade(byte idade){
+    public List<ResponsePacienteQueryDTO> getPacientesByPageFilter(byte idade, String nome, int page){
+            log.info("Encontrando usuários por pesquisa filtrada, com idade {}, nome {}, pagina {}", idade, nome, page);
+            Pageable pageable = PageRequest.of(page, 100);
             LocalDate dataMin = LocalDate.now().minusYears(idade);
             LocalDate dataMax = dataMin.minusYears(1).plusDays(1);
-            List<Paciente> pacientes = pacienteDAO.findByIdade(dataMax, dataMin);
+            Page<Paciente> pacientes = pacienteDAO.getAllByPageFilter(dataMax, dataMin, nome, pageable);
             return pacientes.stream()
                     .map(paciente -> new ResponsePacienteQueryDTO(
                             paciente.getNome(),
@@ -66,13 +71,9 @@ public class DigitalPacienteService {
 
     }
 
-
-    /*public List<ResponsePacienteQueryDTO> getPacientesByPageFilter(){
-        pacienteDAO.
-    }
-*/
     @Transactional
     public void savePaciente(RequestPacienteCadastroDTO pacienteCadastroDTO){
+        log.info("Salvando paciente com os dados: {}", pacienteCadastroDTO);
         Paciente paciente = Paciente.builder()
                 .nome(pacienteCadastroDTO.nome())
                 .data_nasc(pacienteCadastroDTO.dataNasc())
@@ -87,6 +88,7 @@ public class DigitalPacienteService {
 
     @Transactional
     public void setPaciente(RequestPacienteUpdateDTO pacienteUpdateDTO, Long id){
+        log.info("Atualizando paciente com o id {} e os dados: {}",id, pacienteUpdateDTO);
         Paciente paciente = Paciente.builder()
                 .cpf(pacienteUpdateDTO.cpf())
                 .senha(pacienteUpdateDTO.senha())
@@ -101,7 +103,9 @@ public class DigitalPacienteService {
     }
 
     @Transactional
-    public void deletePaciente(Long id){
+    public void deletePaciente(Long id)
+    {
+        log.info("Deletando o paciente com o id {}",id);
         pacienteDAO.deleteById(id);
     }
 
