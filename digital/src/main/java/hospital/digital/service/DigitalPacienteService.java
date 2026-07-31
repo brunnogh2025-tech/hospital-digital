@@ -56,9 +56,9 @@ public class DigitalPacienteService {
                 )).collect(Collectors.toList());
     }
 
-    public List<ResponsePacienteQueryDTO> getPacientesByPageFilter(byte idade, String nome, int page){
-            log.info("Encontrando usuários por pesquisa filtrada, com idade {}, nome {}, pagina {}", idade, nome, page);
-            Pageable pageable = PageRequest.of(page, 100);
+    public List<ResponsePacienteQueryDTO> getPacientesByPageFiltered(byte idade, String nome, int page){
+            log.info("Encontrando pacientes por pesquisa filtrada, com idade {}, nome {}, pagina {}", idade, nome, page);
+            Pageable pageable = PageRequest.of(page, 10);
             LocalDate dataMin = LocalDate.now().minusYears(idade);
             LocalDate dataMax = dataMin.minusYears(1).plusDays(1);
             Page<Paciente> pacientes = pacienteDAO.getAllByPageFilter(dataMax, dataMin, nome, pageable);

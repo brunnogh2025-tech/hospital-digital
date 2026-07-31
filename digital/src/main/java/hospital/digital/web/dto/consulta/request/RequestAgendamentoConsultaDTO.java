@@ -1,16 +1,13 @@
 package hospital.digital.web.dto.consulta.request;
 
-import hospital.digital.entity.medico.Medico;
-import hospital.digital.entity.paciente.Paciente;
 import jakarta.validation.constraints.NotNull;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record RequestAgendamentoConsultaDTO(
-        Paciente paciente,
+        Long paciente_id,
         @NotNull(message = "Data é obrigatória.")
         LocalDateTime dataAgendada,
-        Medico medico
+        Long medico_id
 ) {
 }

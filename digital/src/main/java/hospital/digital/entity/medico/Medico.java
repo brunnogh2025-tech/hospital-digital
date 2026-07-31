@@ -1,5 +1,6 @@
 package hospital.digital.entity.medico;
 
+import hospital.digital.entity.Calculador_idade;
 import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -9,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Entity
@@ -16,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Medico {
+public class Medico implements Calculador_idade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,26 +26,41 @@ public class Medico {
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Consulta> consultas;
 
-    @NotBlank
     private String nome;
 
-    @NotBlank
-    @Email
+    @Column(unique = true)
     private String email;
 
-    @NotBlank
+    @Column(unique = true)
     private String telefone;
 
-    @NotBlank
     private EspecialidadeMedico especialidade;
 
-    public Medico(String nome, LocalDate data_nasc, String email, String telefone, EspecialidadeMedico especialidade) {
+    private LocalDate data_nasc;
+
+    @Column(unique = true)
+    private String cpf;
+
+    private String crm;
+
+    private String senha;
+
+    public Medico(String nome, String email, String telefone, EspecialidadeMedico especialidade, LocalDate data_nasc, String cpf, String crm, String senha) {
         this.nome = nome;
         this.email = email;
         this.telefone = telefone;
         this.especialidade = especialidade;
+        this.data_nasc = data_nasc;
+        this.cpf = cpf;
+        this.crm = crm;
+        this.senha = senha;
     }
 
     public Medico() {
+    }
+
+    @Override
+    public int calcularIdade(){
+        return Period.between(this.getData_nasc(),LocalDate.now()).getYears();
     }
 }

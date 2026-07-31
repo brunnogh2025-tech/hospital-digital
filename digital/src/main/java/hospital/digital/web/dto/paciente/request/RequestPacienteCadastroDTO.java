@@ -17,7 +17,10 @@ public record RequestPacienteCadastroDTO(
         @NotBlank(message = "E-mail é obrigatório.")
         String email,
         @NotBlank
-        @Size(min = 8, max = 30, message = "A senha deve ter de 8 a 30 caracteres.")
+        @Pattern(
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!]).{8,}$",
+                message = "Senha deve ter no mínimo 8 caracteres, incluindo letra maiúscula, minúscula, número e caractere especial"
+        )
         String senha,
         @Pattern(regexp = "\\d{11}|\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}", message = "CPF deve conter apenas números")
         String cpf,

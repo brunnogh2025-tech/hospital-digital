@@ -2,6 +2,7 @@ package hospital.digital.entity.paciente;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import hospital.digital.entity.Calculador_idade;
 import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -19,7 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Paciente {
+public class Paciente implements Calculador_idade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,7 +55,8 @@ public class Paciente {
     public Paciente() {
     }
 
-    public byte calcularIdade(){
-        return (byte) Period.between(data_nasc, LocalDate.now()).getYears();
+    @Override
+    public int calcularIdade(){
+        return Period.between(data_nasc, LocalDate.now()).getYears();
     }
 }

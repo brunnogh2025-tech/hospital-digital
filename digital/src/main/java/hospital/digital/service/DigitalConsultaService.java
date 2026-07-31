@@ -2,8 +2,13 @@ package hospital.digital.service;
 
 import hospital.digital.entity.consulta.Consulta;
 import hospital.digital.entity.consulta.ConsultaNaoEncontradaException;
+import hospital.digital.entity.medico.Medico;
+import hospital.digital.entity.medico.MedicoNaoEncontradoException;
 import hospital.digital.entity.paciente.Paciente;
+import hospital.digital.entity.paciente.PacienteNaoEncontradoException;
 import hospital.digital.repository.ConsultaDAO;
+import hospital.digital.repository.MedicoDAO;
+import hospital.digital.repository.PacienteDAO;
 import hospital.digital.web.dto.consulta.request.RequestAgendamentoConsultaDTO;
 import hospital.digital.web.dto.consulta.request.RequestConsultaUpdateDTO;
 import hospital.digital.web.dto.consulta.request.RequestQueryConsultaDTO;
@@ -29,9 +34,13 @@ public class DigitalConsultaService {
      */
 
     public final ConsultaDAO consultaDAO;
+    public final PacienteDAO pacienteDAO;
+    public final MedicoDAO medicoDAO;
 
-    public DigitalConsultaService(ConsultaDAO consultaDAO) {
+    public DigitalConsultaService(ConsultaDAO consultaDAO, PacienteDAO pacienteDAO, MedicoDAO medicoDAO) {
         this.consultaDAO = consultaDAO;
+        this.pacienteDAO = pacienteDAO;
+        this.medicoDAO = medicoDAO;
     }
 
     public ResponseConsultaQueryDTO getConsultaById(Long id){
@@ -45,7 +54,7 @@ public class DigitalConsultaService {
 
     public List<ResponseConsultaQueryDTO> getConsultasByPage(int page){
         log.info("Buscando consultas na página {}",page);
-        Pageable pageable = PageRequest.of(page, 100);
+        Pageable pageable = PageRequest.of(page, 10);
         Page<Consulta> consultas = consultaDAO.getConsultaPageable(pageable);
         return consultas.stream()
                 .map(consulta -> new ResponseConsultaQueryDTO(
@@ -58,10 +67,16 @@ public class DigitalConsultaService {
     @Transactional
     public void saveConsulta(RequestAgendamentoConsultaDTO agendamento){
         log.info("Salvando consulta com os dados: {}",agendamento);
+        Paciente paciente = pacienteDAO.findById(agendamento.paciente_id()).orElseThrow(
+                () -> new PacienteNaoEncontradoException(agendamento.paciente_id())
+        );
+        Medico medico = medicoDAO.findById(agendamento.medico_id()).orElseThrow(
+                () -> new MedicoNaoEncontradoException(agendamento.medico_id())
+        );
         Consulta consulta = Consulta.builder()
-                .paciente(agendamento.paciente())
+                .paciente(paciente)
                 .data(agendamento.dataAgendada())
-                .medico(agendamento.medico())
+                .medico(medico)
                 .build();
         consultaDAO.save(consulta);
     }
