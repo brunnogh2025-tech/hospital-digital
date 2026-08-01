@@ -24,7 +24,7 @@ public class PacienteController {
         this.pacienteService = pacienteService;
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/get/{id}")
     public ResponseEntity<ResponsePacienteQueryDTO> getPacienteById(@PathVariable Long id){
         ResponsePacienteQueryDTO pacienteDTO = pacienteService.getPacienteById(id);
         if(pacienteDTO != null){
@@ -33,26 +33,26 @@ public class PacienteController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    @GetMapping
+    @GetMapping(path = "/page")
     public ResponseEntity<List<ResponsePacienteQueryDTO>> getPacientesByPage(@RequestParam int page){
         List<ResponsePacienteQueryDTO> pacientesDTO = pacienteService.getPacientesByPage(page);
         return ResponseEntity.status(HttpStatus.OK).body(pacientesDTO);
     }
 
-    @GetMapping
+    @GetMapping("/pageFiltered/{page}")
     public ResponseEntity<List<ResponsePacienteQueryDTO>> getPacientesByPageFiltered(
             @RequestParam byte idade, @RequestParam String nome, @RequestParam int page){
         List<ResponsePacienteQueryDTO> pacientesDTO = pacienteService.getPacientesByPageFiltered(idade, nome, page);
         return ResponseEntity.status(HttpStatus.OK).body(pacientesDTO);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/update/{id}")
     public ResponseEntity<RequestPacienteUpdateDTO> updatePaciente(@RequestParam RequestPacienteUpdateDTO dados_A_Atualizar, @PathVariable Long id){
         pacienteService.setPaciente(dados_A_Atualizar, id);
         return ResponseEntity.status(HttpStatus.OK).body(dados_A_Atualizar);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<ResponsePacienteQueryDTO> deletePaciente(@PathVariable Long id){
         ResponsePacienteQueryDTO pacienteDTO = pacienteService.getPacienteById(id);
         if (pacienteDTO != null){

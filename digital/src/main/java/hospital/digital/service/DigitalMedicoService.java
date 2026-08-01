@@ -26,7 +26,7 @@ public class DigitalMedicoService {
         método de query personalizada.
      */
 
-    public MedicoDAO medicoDAO;
+    public final MedicoDAO medicoDAO;
 
     public DigitalMedicoService(MedicoDAO medicoDAO) {
         this.medicoDAO = medicoDAO;

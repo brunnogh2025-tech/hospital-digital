@@ -83,10 +83,16 @@ public class DigitalConsultaService {
     @Transactional
     public void setConsulta(RequestConsultaUpdateDTO consultaUpdate, Long id){
         log.info("Mudando consulta com o id {} com os dados: {}",id, consultaUpdate);
+        Paciente paciente = pacienteDAO.findById(consultaUpdate.paciente_id()).orElseThrow(
+                () -> new PacienteNaoEncontradoException(consultaUpdate.paciente_id())
+        );
+        Medico medico = medicoDAO.findById(consultaUpdate.medico_id()).orElseThrow(
+                () -> new MedicoNaoEncontradoException(consultaUpdate.medico_id())
+        );
         Consulta consulta = Consulta.builder()
-                .paciente(consultaUpdate.paciente())
+                .paciente(paciente)
                 .data(consultaUpdate.data())
-                .medico(consultaUpdate.medico())
+                .medico(medico)
                 .build();
         consulta.setId(id);
         consultaDAO.save(consulta);

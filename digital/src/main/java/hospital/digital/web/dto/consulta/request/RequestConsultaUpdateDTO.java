@@ -7,8 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record RequestConsultaUpdateDTO(
-        Paciente paciente,
+        Long paciente_id,
         LocalDateTime data,
-        Medico medico
+        Long medico_id
 ) {
 }

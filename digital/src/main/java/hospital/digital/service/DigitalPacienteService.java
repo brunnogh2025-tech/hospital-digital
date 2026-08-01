@@ -26,7 +26,7 @@ public class DigitalPacienteService {
 
      */
 
-    PacienteDAO pacienteDAO;
+    public final PacienteDAO pacienteDAO;
 
     public DigitalPacienteService(PacienteDAO pacienteDAO) {
         this.pacienteDAO = pacienteDAO;

@@ -15,13 +15,13 @@ import java.util.List;
 @RequestMapping(path = "/consulta")
 public class ConsultaController {
     
-    public DigitalConsultaService consultaService;
+    public final DigitalConsultaService consultaService;
 
     public ConsultaController(DigitalConsultaService consultaService) {
         this.consultaService = consultaService;
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/get/{id}")
     public ResponseEntity<ResponseConsultaQueryDTO> getConsultaById(@PathVariable Long id){
         ResponseConsultaQueryDTO consultaDTO = consultaService.getConsultaById(id);
         if(consultaDTO != null){
@@ -30,24 +30,24 @@ public class ConsultaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
-    @GetMapping
+    @GetMapping(path = "/page/{page}")
     public ResponseEntity<List<ResponseConsultaQueryDTO>> getConsultasByPage(@RequestParam int page){
         List<ResponseConsultaQueryDTO> consultasDTO = consultaService.getConsultasByPage(page);
         return ResponseEntity.status(HttpStatus.OK).body(consultasDTO);
     }
-    @PostMapping
+    @PostMapping(path = "/save")
     public ResponseEntity<RequestAgendamentoConsultaDTO> saveConsulta(@RequestParam RequestAgendamentoConsultaDTO agendamento){
         consultaService.saveConsulta(agendamento);
         return ResponseEntity.status(HttpStatus.OK).body(agendamento);
     }
 
-    @PutMapping(path = "{id}")
+    @PutMapping(path = "/update/{id}")
     public ResponseEntity<RequestConsultaUpdateDTO> updateConsulta(@RequestParam RequestConsultaUpdateDTO dados_A_Atualizar, @PathVariable Long id){
         consultaService.setConsulta(dados_A_Atualizar, id);
         return ResponseEntity.status(HttpStatus.OK).body(dados_A_Atualizar);
     }
 
-    @DeleteMapping(path = "{id}")
+    @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<ResponseConsultaQueryDTO> deleteConsulta(@PathVariable Long id){
         ResponseConsultaQueryDTO consultaDTO = consultaService.getConsultaById(id);
         if (consultaDTO != null){
