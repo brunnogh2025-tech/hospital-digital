@@ -7,18 +7,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Optional;
 
 @Repository
-public interface PacienteDAO extends JpaRepository<Paciente,Long> {
+public interface PacienteDAO extends JpaRepository<Paciente,Long>{
     public Paciente findByNome(String nome);
 
     public Paciente findByTelefone(String tel);
 
-    public Paciente findByEmail(String email);
+    public Optional<UserDetails> findByEmail(String email);
 
     @Query("SELECT DISTINCT p FROM paciente LEFT JOIN FETCH p.consulta " +
             "WHERE :dataMax IS NULL OR p.data_nasc >= :dataMax " +

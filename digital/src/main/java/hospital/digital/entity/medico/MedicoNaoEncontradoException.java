@@ -4,6 +4,10 @@ import hospital.digital.web.exception.EntidadeNaoEncontradaException;
 
 public class MedicoNaoEncontradoException extends EntidadeNaoEncontradaException {
     public MedicoNaoEncontradoException(Long id) {
-        super("O médico com o id " + id + " não foi encontrado.");
+        super("O médico com o id " + id + "não foi encontrado.");
+    }
+
+    public MedicoNaoEncontradoException(String email) {
+        super("O médico com o email " + email + "não foi encontrado.");
     }
 }

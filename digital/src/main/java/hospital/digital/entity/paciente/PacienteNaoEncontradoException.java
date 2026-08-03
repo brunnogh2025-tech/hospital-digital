@@ -5,7 +5,11 @@ import hospital.digital.web.exception.MensagemNaoEncontrado;
 
 public class PacienteNaoEncontradoException extends EntidadeNaoEncontradaException {
     public PacienteNaoEncontradoException(Long id) {
-        super("O paciente com o id " + id + " não foi encontrado");
+        super("O paciente com o id " + id + "não foi encontrado");
+    }
+
+    public PacienteNaoEncontradoException(String email) {
+        super("O paciente com o email " + email + "não foi encontrado");
     }
 
     /*public static PacienteNaoEncontradoException porId(Long id){

@@ -8,9 +8,14 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import org.jspecify.annotations.Nullable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -18,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Medico implements Calculador_idade {
+public class Medico implements Calculador_idade, UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,6 +35,8 @@ public class Medico implements Calculador_idade {
 
     @Column(unique = true)
     private String email;
+
+    private List<String> roles;
 
     @Column(unique = true)
     private String telefone;
@@ -45,9 +52,10 @@ public class Medico implements Calculador_idade {
 
     private String senha;
 
-    public Medico(String nome, String email, String telefone, EspecialidadeMedico especialidade, LocalDate data_nasc, String cpf, String crm, String senha) {
+    public Medico(String nome, String email, List<String> roles, String telefone, EspecialidadeMedico especialidade, LocalDate data_nasc, String cpf, String crm, String senha) {
         this.nome = nome;
         this.email = email;
+        this.roles = roles;
         this.telefone = telefone;
         this.especialidade = especialidade;
         this.data_nasc = data_nasc;
@@ -62,5 +70,22 @@ public class Medico implements Calculador_idade {
     @Override
     public int calcularIdade(){
         return Period.between(this.getData_nasc(),LocalDate.now()).getYears();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(
+                SimpleGrantedAuthority::new
+        ).toList();
+    }
+
+    @Override
+    public @Nullable String getPassword() {
+        return "";
+    }
+
+    @Override
+    public String getUsername() {
+        return "";
     }
 }
