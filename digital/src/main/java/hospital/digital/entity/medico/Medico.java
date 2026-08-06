@@ -1,6 +1,7 @@
 package hospital.digital.entity.medico;
 
 import hospital.digital.entity.Calculador_idade;
+import hospital.digital.entity.UserDetailsWithId;
 import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -11,7 +12,6 @@ import lombok.Setter;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -23,7 +23,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Medico implements Calculador_idade, UserDetails {
+public class Medico implements Calculador_idade, UserDetailsWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
