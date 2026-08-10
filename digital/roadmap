@@ -1,0 +1,29 @@
+1. Linux
+Fundamento de infraestrutura. Terminal, gerenciamento de processos, permissões — conhecimento que você vai usar o tempo todo nos tópicos seguintes (rodar bancos, servidores, scripts de deploy etc.).
+
+2. Concorrência e Threads
+Aqui faz sentido porque é um conceito fundamental de programação (não depende de banco, API ou arquitetura), mas ao mesmo tempo já prepara terreno para entender coisas que vêm depois: por que caches em memória precisam lidar com acesso concorrente, por que pools de conexão com banco existem, e por que sistemas distribuídos (microsserviços) têm problemas de concorrência ainda mais complexos (race conditions, deadlocks, sincronização entre serviços).
+
+3. Bancos não-relacionais
+Como antes: entender os modelos de dados fora do padrão relacional.
+
+4. Banco em memória
+Cache, sessões, dados voláteis (ex: Redis).
+
+5. Flyway
+Aqui entra o controle de versionamento de schema. Faz mais sentido depois de já entender bancos de dados, já que o Flyway é tipicamente usado para gerenciar migrações em bancos relacionais — então esse é o momento de amarrar esse conhecimento com boas práticas de versionamento de banco.
+
+6. Thymeleaf
+Camada de visualização (server-side rendering). Encaixa bem aqui porque normalmente é usado para construir a interface de uma aplicação monolítica em Java/Spring, antes de você começar a pensar em sistemas distribuídos.
+
+7. Consumo de APIs / integração de sistemas
+Agora sim, como sistemas conversam entre si.
+
+8. Microsserviços
+Arquitetura distribuída, construída sobre tudo que veio antes (dados, versionamento, comunicação).
+
+9. Nuvem
+Conceitos de infraestrutura como serviço, provedores, escalabilidade — pensando em onde essas aplicações vão rodar.
+
+10. Deploy
+Por último, colocar tudo em produção: CI/CD, containers, pipelines — a etapa que fecha o ciclo prático, unindo linux + nuvem + a aplicação que você construiu
