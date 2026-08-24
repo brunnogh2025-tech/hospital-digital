@@ -82,6 +82,7 @@ public class DigitalPacienteService {
                 .senha(pacienteCadastroDTO.senha())
                 .telefone(pacienteCadastroDTO.telefone())
                 .sintomas(pacienteCadastroDTO.sintomas())
+                .roles(List.of("PACIENTE"))
                 .build();
         pacienteDAO.save(paciente);
     }

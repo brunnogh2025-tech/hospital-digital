@@ -4,9 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import hospital.digital.entity.medico.Medico;
 import hospital.digital.entity.paciente.Paciente;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,6 +14,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Consulta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

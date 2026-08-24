@@ -21,7 +21,7 @@ public interface MedicoDAO extends JpaRepository<Medico,Long>{
 
     public Optional<UserDetails> findByEmail(String email);
 
-    @Query("SELECT DISTINCT m FROM medico LEFT JOIN FETCH p.consulta " +
+    @Query(value = "SELECT DISTINCT m FROM Medico m LEFT JOIN FETCH m.consultas " +
             "WHERE :dataMax IS NULL OR m.data_nasc >= :dataMax " +
             "AND :dataMin IS NULL OR m.data_nasc <= :dataMin " +
             "AND :nome IS NULL OR m.nome LIKE CONCAT('%' , :nome , '%') " +
@@ -29,6 +29,6 @@ public interface MedicoDAO extends JpaRepository<Medico,Long>{
     public Page<Medico> getAllByPageFilter(@Param("dataMax") LocalDate dataMax, @Param("dataMin")LocalDate dataMin,
                                              @Param("nome")String nome, @NonNull Pageable pageable);
 
-    @Query("SELECT DISTINCT m FROM Medico JOIN FETCH m.consultas ORDER BY medico.nome")
+    @Query(value = "SELECT DISTINCT m FROM Medico m JOIN FETCH m.consultas ORDER BY m.nome")
     public Page<Medico> getMedicosByPage(Pageable pageable);
 }

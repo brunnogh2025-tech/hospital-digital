@@ -6,9 +6,7 @@ import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,6 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Medico implements Calculador_idade, UserDetailsWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

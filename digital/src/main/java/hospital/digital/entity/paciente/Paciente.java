@@ -8,9 +8,7 @@ import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +24,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Paciente implements Calculador_idade, UserDetailsWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +49,7 @@ public class Paciente implements Calculador_idade, UserDetailsWithId {
 
     private String sintomas;
 
-    public Paciente(String nome, LocalDate data_nasc, String email, List<String> roles, String telefone, String cpf, String sintomas, String senha) {
+    public Paciente(String nome, LocalDate data_nasc, String email, String telefone, String cpf, String sintomas, String senha) {
         this.nome = nome;
         this.data_nasc = data_nasc;
         this.email = email;
@@ -58,7 +57,6 @@ public class Paciente implements Calculador_idade, UserDetailsWithId {
         this.cpf = cpf;
         this.sintomas = sintomas;
         this.senha = senha;
-        this.roles = roles;
     }
 
     public Paciente() {

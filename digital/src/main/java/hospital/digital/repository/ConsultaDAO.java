@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
 public interface ConsultaDAO extends JpaRepository<Consulta,Long> {
 
     //projection
-    @Query("""
-        SELECT new web.dto.consulta.response.PacienteConsultaQueryDTO(
+    @Query(value = """
+        SELECT new hospital.digital.web.dto.consulta.response.ResponseConsultaQueryDTO(
             c.paciente.nome,
             c.data,
             c.medico.nome

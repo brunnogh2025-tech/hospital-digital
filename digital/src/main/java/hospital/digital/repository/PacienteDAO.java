@@ -21,15 +21,11 @@ public interface PacienteDAO extends JpaRepository<Paciente,Long>{
 
     public Optional<UserDetails> findByEmail(String email);
 
-    @Query("SELECT DISTINCT p FROM paciente LEFT JOIN FETCH p.consulta " +
-            "WHERE :dataMax IS NULL OR p.data_nasc >= :dataMax " +
-            "AND :dataMin IS NULL OR p.data_nasc <= :dataMin " +
-            "AND :nome IS NULL OR p.nome LIKE CONCAT('%' , :nome , '%') " +
-            "ORDER BY p.nome")
+    @Query(value = "SELECT DISTINCT p FROM Paciente p LEFT JOIN FETCH p.consultas WHERE (:dataMax IS NULL OR p.data_nasc >= :dataMax) AND (:dataMin IS NULL OR p.data_nasc <= :dataMin) AND (:nome IS NULL OR p.nome LIKE CONCAT('%', :nome, '%')) ORDER BY p.nome")
     public Page<Paciente> getAllByPageFilter(@Param("dataMax")LocalDate dataMax, @Param("dataMin")LocalDate dataMin,
                                       @Param("nome")String nome,@NonNull Pageable pageable);
 
-    @Query(value = "SELECT DISTINCT p FROM paciente JOIN FETCH p.consultas ORDER BY p.nome")
+    @Query(value = "SELECT DISTINCT p FROM Paciente p JOIN FETCH p.consultas ORDER BY p.nome")
     public Page<Paciente> findAllByPage(@NonNull Pageable pageable);
 
 }
