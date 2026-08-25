@@ -27,3 +27,17 @@ Conceitos de infraestrutura como serviço, provedores, escalabilidade — pensan
 
 10. Deploy
 Por último, colocar tudo em produção: CI/CD, containers, pipelines — a etapa que fecha o ciclo prático, unindo linux + nuvem + a aplicação que você construiu
+
+                                                    COMANDOS DOCKER:
+
+FROM: Define a imagem base de onde o processo começa (neste caso, o Python leve).
+
+WORKDIR: Cria e define o diretório de trabalho padrão no contêiner.
+
+COPY: Transfere arquivos do seu computador para dentro da imagem.
+
+RUN: Roda comandos durante a fase de criação (build).
+
+EXPOSE: Mostra qual porta o contêiner escuta.
+
+CMD: Estabelece o comando final executado ao ligar o contêiner.
