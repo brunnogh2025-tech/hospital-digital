@@ -1,7 +1,6 @@
 package hospital.digital.web.controller;
 
 import hospital.digital.configuration.TokenConfig;
-import hospital.digital.entity.UserDetailsWithId;
 import hospital.digital.service.DigitalMedicoService;
 import hospital.digital.service.DigitalPacienteService;
 import hospital.digital.web.dto.UsuarioLoginDTO;
@@ -42,7 +41,7 @@ public class AuthController {
         UsernamePasswordAuthenticationToken datasToCreateToken = new UsernamePasswordAuthenticationToken(usuarioLoginDTO.email(),usuarioLoginDTO.senha());
         Authentication authentication = authenticationManager.authenticate(datasToCreateToken);
 
-        UserDetailsWithId user = (UserDetailsWithId) authentication.getPrincipal();
+        Usuario user = (Usuario) authentication.getPrincipal();
 
         assert user != null;
         String token = tokenConfig.generateToken(user);

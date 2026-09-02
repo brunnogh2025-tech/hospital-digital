@@ -1,11 +1,10 @@
 package hospital.digital.entity.medico;
 
 import hospital.digital.entity.Calculador_idade;
+import hospital.digital.entity.Roles;
 import hospital.digital.entity.UserDetailsWithId;
 import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,40 +17,49 @@ import java.util.List;
 
 @Entity
 @Table(name = "medico")
-@Getter
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Medico implements Calculador_idade, UserDetailsWithId {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
     private Long id;
 
     @OneToMany(cascade = CascadeType.PERSIST)
+    @Getter
     private List<Consulta> consultas;
 
+    @Getter
     private String nome;
 
     @Column(unique = true)
     private String email;
 
-    private List<String> roles;
+    @Enumerated(EnumType.STRING)
+    private Roles roles;
 
     @Column(unique = true)
+    @Getter
     private String telefone;
 
+    @Enumerated(EnumType.STRING)
+    @Getter
     private EspecialidadeMedico especialidade;
 
+    @Getter
     private LocalDate data_nasc;
 
     @Column(unique = true)
+    @Getter
     private String cpf;
 
+    @Getter
     private String crm;
 
     private String senha;
 
-    public Medico(String nome, String email, List<String> roles, String telefone, EspecialidadeMedico especialidade, LocalDate data_nasc, String cpf, String crm, String senha) {
+    public Medico(String nome, String email, Roles roles, String telefone, EspecialidadeMedico especialidade, LocalDate data_nasc, String cpf, String crm, String senha) {
         this.nome = nome;
         this.email = email;
         this.roles = roles;
@@ -73,18 +81,36 @@ public class Medico implements Calculador_idade, UserDetailsWithId {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles.stream().map(
-                SimpleGrantedAuthority::new
-        ).toList();
+        return List.of(roles);
     }
 
     @Override
-    public @Nullable String getPassword() {
-        return "";
+    public String getPassword() {
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

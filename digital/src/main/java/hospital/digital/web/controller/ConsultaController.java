@@ -7,6 +7,7 @@ import hospital.digital.web.dto.consulta.request.RequestConsultaUpdateDTO;
 import hospital.digital.web.dto.consulta.response.ResponseConsultaQueryDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class ConsultaController {
     }
 
     @DeleteMapping(path = "/delete/{id}")
+    @PreAuthorize("#id == authentication.principal.id or )")
     public ResponseEntity<ResponseConsultaQueryDTO> deleteConsulta(@PathVariable Long id){
         ResponseConsultaQueryDTO consultaDTO = consultaService.getConsultaById(id);
         if (consultaDTO != null){

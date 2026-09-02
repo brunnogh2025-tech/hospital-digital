@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -104,6 +105,7 @@ public class DigitalPacienteService {
     }
 
     @Transactional
+    @PreAuthorize()
     public void deletePaciente(Long id)
     {
         log.info("Deletando o paciente com o id {}",id);

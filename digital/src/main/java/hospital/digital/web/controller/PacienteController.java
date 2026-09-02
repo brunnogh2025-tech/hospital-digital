@@ -6,6 +6,7 @@ import hospital.digital.web.dto.paciente.request.RequestPacienteUpdateDTO;
 import hospital.digital.web.dto.paciente.response.ResponsePacienteQueryDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/paciente")
+@PreAuthorize("hasRole('PACIENTE')")
 public class PacienteController {
     /*
     TODO: Mensagens personalizadas
@@ -47,12 +49,14 @@ public class PacienteController {
     }
 
     @PutMapping(path = "/update/{id}")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<RequestPacienteUpdateDTO> updatePaciente(@RequestParam RequestPacienteUpdateDTO dados_A_Atualizar, @PathVariable Long id){
         pacienteService.setPaciente(dados_A_Atualizar, id);
         return ResponseEntity.status(HttpStatus.OK).body(dados_A_Atualizar);
     }
 
     @DeleteMapping(path = "/delete/{id}")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<ResponsePacienteQueryDTO> deletePaciente(@PathVariable Long id){
         ResponsePacienteQueryDTO pacienteDTO = pacienteService.getPacienteById(id);
         if (pacienteDTO != null){

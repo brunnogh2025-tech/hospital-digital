@@ -5,12 +5,14 @@ import hospital.digital.web.dto.medico.request.RequestMedicoCadastroDTO;
 import hospital.digital.web.dto.medico.response.ResponseMedicoQueryDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/medico")
+@PreAuthorize("hasRole('MEDICO')")
 public class MedicoController {
 
     public final DigitalMedicoService medicoService;
@@ -42,12 +44,14 @@ public class MedicoController {
     }
 
     @PutMapping(path = "/update/{id}")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<RequestMedicoCadastroDTO> updateMedico(@RequestParam RequestMedicoCadastroDTO dados_A_Atualizar, @PathVariable Long id){
         medicoService.setMedico(dados_A_Atualizar, id);
         return ResponseEntity.status(HttpStatus.OK).body(dados_A_Atualizar);
     }
 
     @DeleteMapping(path = "/delete/{id}")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     public ResponseEntity<ResponseMedicoQueryDTO> deleteMedico(@PathVariable Long id){
         ResponseMedicoQueryDTO medicoDTO = medicoService.getMedicoById(id);
         if (medicoDTO != null){
