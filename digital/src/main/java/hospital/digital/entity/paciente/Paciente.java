@@ -1,18 +1,14 @@
 package hospital.digital.entity.paciente;
 
 
-import hospital.digital.entity.Calculador_idade;
 import hospital.digital.entity.Roles;
+import hospital.digital.entity.Usuario;
 import hospital.digital.entity.consulta.Consulta;
 import jakarta.persistence.*;
 import lombok.*;
-import org.jspecify.annotations.Nullable;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -21,7 +17,7 @@ import java.util.List;
 @Setter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Paciente implements Calculador_idade {
+public class Paciente implements Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

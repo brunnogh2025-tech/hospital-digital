@@ -1,5 +1,6 @@
 package hospital.digital.entity.paciente;
 
+import hospital.digital.entity.UserDetailsWithId;
 import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-public class PacienteAuthenticated implements UserDetails {
+public class PacienteAuthenticated implements UserDetailsWithId {
     public Paciente paciente;
 
     public PacienteAuthenticated(Paciente paciente) {
@@ -47,5 +48,10 @@ public class PacienteAuthenticated implements UserDetails {
     @Override
     public String getUsername() {
         return this.paciente.getEmail();
+    }
+
+    @Override
+    public Long getId() {
+        return paciente.getId();
     }
 }

@@ -2,6 +2,7 @@ package hospital.digital.configuration;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import hospital.digital.entity.UserDetailsWithId;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ public class TokenConfig {
     Long expiration;
     String issuer;
 
-    public String generateToken(Usuario user){
+    public String generateToken(UserDetailsWithId user){
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
 
