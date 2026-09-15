@@ -20,7 +20,7 @@ public class Medico implements Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     
-    private Long id;
+    private UUID id;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     

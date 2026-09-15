@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @Repository
-public interface PacienteDAO extends JpaRepository<Paciente,Long>{
+public interface PacienteDAO extends JpaRepository<Paciente,UUID>{
     public Paciente findByNome(String nome);
 
     public Paciente findByTelefone(String tel);

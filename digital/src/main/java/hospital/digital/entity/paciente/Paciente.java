@@ -20,7 +20,7 @@ import java.util.List;
 public class Paciente implements Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private UUID id;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Consulta> consultas;
