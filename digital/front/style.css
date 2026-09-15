@@ -27,3 +27,7 @@ a {
     text-decoration: none;
     font-weight: bold;
 }
+
+#cad {
+    border-style: none;
+}
